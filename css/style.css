@@ -1,0 +1,99 @@
+/* css/style.css */
+
+:root {
+  --page-bg: #f6f7f9;
+  --card-radius: 14px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--page-bg);
+}
+
+a {
+  color: inherit;
+}
+
+header .container,
+footer .container,
+main.container {
+  max-width: 1140px;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.border {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.border-top,
+.border-bottom {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.rounded-3 {
+  border-radius: var(--card-radius) !important;
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+}
+
+.card-img-top {
+  height: 180px;
+  object-fit: cover;
+  background: #fff;
+}
+
+.btn {
+  border-radius: 12px;
+}
+
+.form-control,
+.form-select,
+.input-group-text {
+  border-radius: 12px;
+}
+
+.input-group .form-control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-group .input-group-text {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  white-space: nowrap;
+}
+
+#notifications .alert {
+  border-radius: 12px;
+}
+
+#notifications .alert + .alert {
+  margin-top: 8px;
+}
+
+.sticky-top {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+@media (max-width: 575.98px) {
+  .card-img-top {
+    height: 160px;
+  }
+}
