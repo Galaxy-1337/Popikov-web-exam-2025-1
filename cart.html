@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  <!-- ПОДКЛЮЧЕНИЕ СТИЛЕЙ -->
   <meta charset="UTF-8">
   <meta
     name="viewport"
@@ -8,6 +9,7 @@
   >
   <title>Корзина</title>
 
+  <!-- Бутстрап CSS -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -17,15 +19,18 @@
     rel="stylesheet"
   >
 
+  <!-- CSS -->
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/cart.css">
 
+  <!-- Бутстрап JS -->
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     defer
   ></script>
 
+  <!-- JS -->
   <script src="js/api.js" defer></script>
   <script src="js/storage.js" defer></script>
   <script src="js/cart.js" defer></script>
@@ -34,14 +39,17 @@
 
 <body class="min-vh-100 d-flex flex-column">
 
+  <!-- HEADER -->
   <header class="border-bottom bg-white sticky-top">
     <div class="container py-3">
       <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
 
+        <!-- Логотип и название магазина -->
         <a href="index.html" class="text-decoration-none d-flex align-items-center gap-2">
-          <span class="fs-4 fw-semibold text-dark">WebShop</span>
+          <span class="fs-4 fw-semibold text-dark">ВСЁ НАШЁЛ!</span>
         </a>
 
+        <!-- Навигационное меню -->
         <nav class="d-flex align-items-center gap-2">
           <a
             class="btn btn-outline-secondary d-inline-flex align-items-center gap-2"
@@ -53,6 +61,7 @@
             <span class="d-none d-md-inline">Каталог</span>
           </a>
 
+          <!-- Кнопка "ЛК" -->
           <a
             class="btn btn-outline-secondary d-inline-flex align-items-center gap-2"
             href="profile.html"
@@ -63,12 +72,15 @@
             <span class="d-none d-md-inline">ЛК</span>
           </a>
 
+          <!-- Кнопка "Корзина" -->
           <span
             class="btn btn-secondary d-inline-flex align-items-center gap-2 disabled"
             aria-label="Товаров в корзине"
             title="Товаров в корзине"
           >
             <i class="bi bi-cart"></i>
+
+            <!-- Количество товаров в корзине -->
             <span class="badge text-bg-light" id="cartCountBadge">0</span>
           </span>
         </nav>
@@ -77,14 +89,19 @@
     </div>
   </header>
 
+  <!-- БЛОК УВЕДОМЛЕНИЙ -->
   <div class="container mt-3">
     <div id="notifications" class="d-grid gap-2"></div>
   </div>
-
+  
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main class="container my-4 flex-grow-1">
     <div class="row g-4">
 
+      <!-- ЛЕВАЯ КОЛОНКА -->
       <section class="col-12 col-lg-7">
+
+        <!-- Заголовок и кнопка "Очистить" -->
         <div class="d-flex align-items-center justify-content-between mb-3">
           <h1 class="h4 m-0">Корзина</h1>
           <button class="btn btn-outline-secondary btn-sm" type="button" id="clearCartBtn">
@@ -92,37 +109,45 @@
           </button>
         </div>
 
+        <!-- Состояние пустой корзины -->
         <div class="d-none text-center text-muted border rounded-3 p-5 bg-white" id="emptyCart">
-          Корзина пуста. Перейдите в каталог, чтобы добавить товары.
+          Корзина пуста. Перейдите в каталог, чтобы добавить товары в заказ.
         </div>
 
+        <!-- Сетка товаров в корзине (через JS) -->
         <div class="row g-3" id="cartGrid"></div>
 
+        <!-- Индикатор загрузки -->
         <div class="d-flex justify-content-center mt-3 d-none" id="loadingIndicator" aria-live="polite">
           <div class="spinner-border" role="status" aria-label="Загрузка"></div>
         </div>
       </section>
 
+      <!-- ПРАВАЯ КОЛОНКА -->
       <section class="col-12 col-lg-5">
         <div class="border rounded-3 p-3 bg-white">
           <h2 class="h5 mb-3">Оформление заказа</h2>
 
+          <!-- Форма заказа -->
           <form id="orderForm" class="d-grid gap-3">
             <div>
               <label class="form-label" for="fullName">Имя</label>
               <input class="form-control" id="fullName" name="full_name" type="text" required>
             </div>
 
+            <!-- Email -->
             <div>
               <label class="form-label" for="email">Email</label>
               <input class="form-control" id="email" name="email" type="email" required>
             </div>
 
+            <!-- Телефон -->
             <div>
               <label class="form-label" for="phone">Телефон</label>
               <input class="form-control" id="phone" name="phone" type="text" required>
             </div>
 
+            <!-- Чекбокс -->
             <div class="form-check">
               <input class="form-check-input" id="subscribe" name="subscribe" type="checkbox">
               <label class="form-check-label" for="subscribe">
@@ -130,11 +155,13 @@
               </label>
             </div>
 
+            <!-- Поле: Адрес доставки -->
             <div>
               <label class="form-label" for="address">Адрес доставки</label>
               <input class="form-control" id="address" name="delivery_address" type="text" required>
             </div>
 
+            <!-- Дата и интервал доставки -->
             <div class="row g-2">
               <div class="col-12 col-md-6">
                 <label class="form-label" for="deliveryDate">Дата доставки</label>
@@ -152,11 +179,13 @@
               </div>
             </div>
 
+            <!-- Комментарий -->
             <div>
               <label class="form-label" for="comment">Комментарий</label>
               <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
             </div>
 
+            <!-- Блок с итоговой стоимостью -->
             <div class="border rounded-3 p-3 bg-light">
               <div class="d-flex justify-content-between">
                 <span class="text-muted">Товары</span>
@@ -173,10 +202,12 @@
               </div>
             </div>
 
+            <!-- Кнопка отправки заказа -->
             <button class="btn btn-primary w-100" type="submit" id="submitOrderBtn" disabled>
               Оформить
             </button>
 
+            <!-- Подсказка под кнопкой -->
             <div class="form-text">
               Заказ можно оформить только если в корзине есть товары.
             </div>
@@ -187,10 +218,11 @@
     </div>
   </main>
 
+  <!-- FOOTER -->
   <footer class="border-top bg-white mt-auto">
     <div class="container py-4">
       <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
-        <div class="text-muted">© WebShop</div>
+        <div class="text-muted">© ВСЁ НАШЁЛ!</div>
         <div class="text-muted">
           Почта: <a href="mailto:info@example.com">infoweb-shop@mail.ru</a>
           Телефон: <a href="tel:+74951234567">+7 (800) 555-35-35</a>
