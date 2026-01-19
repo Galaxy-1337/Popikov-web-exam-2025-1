@@ -20,9 +20,7 @@
   >
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/profile.css">
 
   <!-- Бутстрап JS -->
   <script
@@ -98,37 +96,9 @@
           </button>
         </div>
 
-        <div class="border rounded-3 p-3 bg-white mb-3">
-          <div class="d-flex flex-column flex-md-row align-items-md-end gap-2">
-            <div class="flex-grow-1">
-              <label class="form-label" for="apiKeyInput">API ключ</label>
-              <input
-                class="form-control"
-                id="apiKeyInput"
-                type="text"
-                placeholder="Вставьте ключ (UUID)…"
-              >
-              <div class="form-text">
-                Ключ хранится в браузере и используется для запросов к API.
-              </div>
-            </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-primary" type="button" id="apiKeySaveBtn">
-                Сохранить
-              </button>
-              <button class="btn btn-outline-secondary" type="button" id="apiKeyClearBtn">
-                Очистить
-              </button>
-            </div>
-          </div>
-        </div>
 
         <div class="d-flex justify-content-center mt-3 d-none" id="loadingIndicator" aria-live="polite">
           <div class="spinner-border" role="status" aria-label="Загрузка"></div>
-        </div>
-
-        <div class="d-none text-center text-muted border rounded-3 p-5 bg-white" id="emptyState">
-          Заказов пока нет.
         </div>
 
         <div class="table-responsive border rounded-3 bg-white">
@@ -149,6 +119,10 @@
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="d-none text-center text-muted border rounded-3 p-5 bg-white" id="emptyState">
+          Заказов пока нет.
         </div>
 
       </section>
@@ -265,8 +239,8 @@
                 <select class="form-select" id="e_delivery_interval" required>
                   <option value="">Выберите интервал</option>
                   <option value="08:00-12:00">08:00-12:00</option>
-                  <option value="12:00-16:00">12:00-16:00</option>
-                  <option value="16:00-18:00">16:00-18:00</option>
+                  <option value="12:00-14:00">12:00-14:00</option>
+                  <option value="14:00-18:00">14:00-18:00</option>
                   <option value="18:00-22:00">18:00-22:00</option>
                 </select>
               </div>

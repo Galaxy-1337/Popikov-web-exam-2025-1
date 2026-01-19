@@ -20,7 +20,6 @@
   >
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/cart.css">
 
@@ -61,17 +60,6 @@
             <span class="d-none d-md-inline">Каталог</span>
           </a>
 
-          <!-- Кнопка "ЛК" -->
-          <a
-            class="btn btn-outline-secondary d-inline-flex align-items-center gap-2"
-            href="profile.html"
-            aria-label="Перейти в личный кабинет"
-            title="Личный кабинет"
-          >
-            <i class="bi bi-person"></i>
-            <span class="d-none d-md-inline">ЛК</span>
-          </a>
-
           <!-- Кнопка "Корзина" -->
           <span
             class="btn btn-secondary d-inline-flex align-items-center gap-2 disabled"
@@ -83,6 +71,17 @@
             <!-- Количество товаров в корзине -->
             <span class="badge text-bg-light" id="cartCountBadge">0</span>
           </span>
+
+          <!-- Кнопка "ЛК" -->
+          <a
+            class="btn btn-outline-secondary d-inline-flex align-items-center gap-2"
+            href="profile.html"
+            aria-label="Перейти в личный кабинет"
+            title="Личный кабинет"
+          >
+            <i class="bi bi-person"></i>
+            <span class="d-none d-md-inline">ЛК</span>
+          </a>
         </nav>
 
       </div>
@@ -172,8 +171,8 @@
                 <select class="form-select" id="deliveryInterval" name="delivery_interval" required>
                   <option value="" selected>Выберите интервал</option>
                   <option value="08:00-12:00">08:00-12:00</option>
-                  <option value="12:00-16:00">12:00-16:00</option>
-                  <option value="16:00-18:00">16:00-18:00</option>
+                  <option value="12:00-14:00">12:00-14:00</option>
+                  <option value="14:00-18:00">14:00-18:00</option>
                   <option value="18:00-22:00">18:00-22:00</option>
                 </select>
               </div>

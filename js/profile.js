@@ -65,6 +65,46 @@
     qs('#ordersTbody').innerHTML = ''
   }
 
+  // Загрузка товаров по ID
+  async function loadGoodsByIds (goodIds) {
+    if (!goodIds || !Array.isArray(goodIds) || goodIds.length === 0) {
+      return []
+    }
+
+    const tasks = goodIds.map(async (id) => {
+      try {
+        return await window.WebExamApi.getGoodById(id)
+      } catch (e) {
+        return null
+      }
+    })
+
+    const goods = await Promise.all(tasks)
+    return goods.filter(Boolean)
+  }
+
+  function pickPrice (good) {
+    const ap = Number(good?.actual_price)
+    const dp = Number(good?.discount_price)
+    if (Number.isFinite(dp) && dp > 0 && Number.isFinite(ap) && dp < ap) return dp
+    if (Number.isFinite(dp) && dp > 0 && !Number.isFinite(ap)) return dp
+    return Number.isFinite(ap) ? ap : 0
+  }
+
+  // Обогащение заказа товарами по good_ids
+  async function enrichOrderWithGoods (order) {
+    if (order.good_ids && Array.isArray(order.good_ids) && order.good_ids.length > 0) {
+      const goods = await loadGoodsByIds(order.good_ids)
+      order.goods = goods
+      order.total_sum = goods.reduce((sum, g) => sum + pickPrice(g), 0)
+    } else {
+      order.goods = []
+      order.total_sum = 0
+    }
+
+    return order
+  }
+
   function renderTable (orders) {
     const tbody = qs('#ordersTbody')
     if (!tbody) return
@@ -98,7 +138,13 @@
     showLoading(true)
     try {
       const orders = await window.WebExamApi.getOrders()
-      renderTable(Array.isArray(orders) ? orders : [])
+      const ordersArray = Array.isArray(orders) ? orders : []
+      
+      const enrichedOrders = await Promise.all(
+        ordersArray.map(order => enrichOrderWithGoods(order))
+      )
+      
+      renderTable(enrichedOrders)
     } catch (e) {
       notify('danger', 'Не удалось загрузить заказы.')
       renderEmpty()
@@ -110,23 +156,27 @@
   async function openDetails (id) {
     try {
       const o = await window.WebExamApi.getOrderById(id)
+      
+      // Обогащаем заказ товарами, если их нет
+      const enrichedOrder = await enrichOrderWithGoods(o)
 
-      qs('#d_id').textContent = o.id
-      qs('#d_date').textContent = formatDate(o.created_at)
-      qs('#d_name').textContent = o.full_name
-      qs('#d_email').textContent = o.email
-      qs('#d_phone').textContent = o.phone
-      qs('#d_address').textContent = o.delivery_address
+      qs('#d_id').textContent = enrichedOrder.id
+      qs('#d_date').textContent = formatDate(enrichedOrder.created_at)
+      qs('#d_name').textContent = enrichedOrder.full_name
+      qs('#d_email').textContent = enrichedOrder.email
+      qs('#d_phone').textContent = enrichedOrder.phone
+      qs('#d_address').textContent = enrichedOrder.delivery_address
       qs('#d_delivery').textContent =
-        `${formatDate(o.delivery_date)} ${o.delivery_interval || ''}`
-      qs('#d_total').textContent = formatPrice(o.total_sum)
-      qs('#d_comment').textContent = o.comment || '—'
+        `${formatDate(enrichedOrder.delivery_date)} ${enrichedOrder.delivery_interval || ''}`
+      qs('#d_total').textContent = formatPrice(enrichedOrder.total_sum)
+      qs('#d_comment').textContent = enrichedOrder.comment || '—'
 
       const goodsBox = qs('#d_goods')
       if (goodsBox) {
-        goodsBox.innerHTML = (o.goods || []).map(g =>
-          `<div>#${g.id} — ${g.name}</div>`
-        ).join('')
+        const goods = enrichedOrder.goods || []
+        goodsBox.innerHTML = goods.length > 0
+          ? goods.map(g => `<div>#${g.id} — ${g.name || g.title || 'Без названия'}</div>`).join('')
+          : '<div>Товары не найдены</div>'
       }
 
       new bootstrap.Modal(qs('#detailsModal')).show()
@@ -219,29 +269,8 @@
     })
   }
 
-  function bindApiKey () {
-    const input = qs('#apiKeyInput')
-    if (!input) return
-
-    input.value = window.WebExamApi.getApiKey()
-
-    qs('#apiKeySaveBtn')?.addEventListener('click', () => {
-      window.WebExamApi.setApiKey(input.value.trim())
-      notify('success', 'Ключ сохранён.')
-      loadOrders()
-    })
-
-    qs('#apiKeyClearBtn')?.addEventListener('click', () => {
-      window.WebExamApi.setApiKey('')
-      input.value = ''
-      notify('info', 'Ключ очищен.')
-      loadOrders()
-    })
-  }
-
   function bind () {
     updateCartBadge()
-    bindApiKey()
     bindTableActions()
 
     qs('#refreshBtn')?.addEventListener('click', loadOrders)

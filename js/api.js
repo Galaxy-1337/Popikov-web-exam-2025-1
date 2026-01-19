@@ -3,19 +3,14 @@
 
   const API_HOST = 'https://edu.std-900.ist.mospolytech.ru'
   const API_PREFIX = '/exam-2024-1/api'
-  const API_KEY_STORAGE = 'webexam_api_key'
+  const API_KEY = 'a83a4dfd-6717-49a9-888e-90b8eb0abe24'
 
   function getApiKey () {
-    return localStorage.getItem(API_KEY_STORAGE) || ''
+    return API_KEY
   }
 
   function setApiKey (value) {
-    const v = String(value || '').trim()
-    if (!v) {
-      localStorage.removeItem(API_KEY_STORAGE)
-      return
-    }
-    localStorage.setItem(API_KEY_STORAGE, v)
+    // API ключ задан в коде, изменение недоступно
   }
 
   function buildUrl (path, query = {}) {
@@ -43,7 +38,7 @@
     }
 
     if (body !== undefined) {
-      options.headers['Content-Type'] = 'application/json; charset=utf-8'
+      options.headers['Content-Type'] = 'application/json'
       options.body = JSON.stringify(body)
     }
 
